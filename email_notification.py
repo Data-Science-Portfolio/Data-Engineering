@@ -68,7 +68,8 @@ tenant_id = "******"
 
 ############################################################FUNCTIONS################################################################################
 
-def send_email(message, email, email_title, mailtype, attachment = '', tabledata = '', app_client_id = app_client_id, tenant_secret = tenant_secret, tenant_id = tenant_id, sender = sender):
+def send_email(message, email, email_title, mailtype, attachment = '', tabledata = '', app_client_id = app_client_id, tenant_secret = tenant_secret, /
+               tenant_id = tenant_id, sender = sender):
 
     credentials = (app_client_id, tenant_secret)
     account = Account(credentials, auth_flow_type='credentials', tenant_id=tenant_id)
@@ -138,7 +139,8 @@ def main(test): #Send out emails per file (=per rule) to each recepients
                 #Download "master_list" and read it into a dataframe
                 current_fileSP = blobSP.name.split("/")[-1]
 
-                blob_clientDownSP = BlobClient(storage_url, container_name="transientzone/email_notification/master/", blob_name= current_fileSP, credential=credential)
+                blob_clientDownSP = BlobClient(storage_url, container_name="transientzone/email_notification/master/", /
+                                               blob_name= current_fileSP, credential=credential)
 
                 with open(current_fileSP, "wb") as f:
                     blob_data = blob_clientDownSP.download_blob()
@@ -167,7 +169,8 @@ def main(test): #Send out emails per file (=per rule) to each recepients
                         print(content_file_name)
 
                         #Reading individual Email_notification views to a dataframe 
-                        blob_clientDownContent = BlobClient(storage_url, container_name="transientzone/email_notification/contents/", blob_name= content_file_name , credential=credential)
+                        blob_clientDownContent = BlobClient(storage_url, container_name="transientzone/email_notification/contents/", /
+                                                            blob_name= content_file_name , credential=credential)
 
                         with open(content_file_name, "wb") as f:
                             blob_data = blob_clientDownContent.download_blob()
@@ -176,7 +179,8 @@ def main(test): #Send out emails per file (=per rule) to each recepients
 
                         dfcontent  = pd.read_csv(content_file_name)
                         
-                        # Remove email_notification view from directory once we are done working with it (!if you don't delete you will have a file for each email_notification in directory)    
+                        # Remove email_notification view from directory once we are done working with it 
+                        #(!if you don't delete you will have a file for each email_notification in directory)    
                         os.remove(content_file_name)
 
                         #If dataframe is empty (no errors for email_notification) jump to next email_notification
@@ -205,8 +209,9 @@ def main(test): #Send out emails per file (=per rule) to each recepients
                             
                             
                             
-                        ### sending out 'Recalled Email_notification's  - reading recipient from the email_notification views to send both emails and relevant part of dataframe at store level 
-                        # (Note: we also send a joint table to ourselves above with 'Normal Email_notifications')
+                        ### sending out 'Recalled Email_notification's  - 
+                        #reading recipient from the email_notification views to send both emails and relevant part of dataframe at store level 
+
                         # Find column name that contains emails
                         if 'Recalled' in str(df['RuleDescription'][x]):
                             for col in dfcontent.columns:
