@@ -53,7 +53,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
 
 ##########################################################################
 
-# preferably import below Write_update_db to above
+# preferably import below Write_update_db as a module
 
 
 class Write_update_db():
